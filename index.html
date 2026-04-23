@@ -1,272 +1,508 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>旅行者公益插件生存服</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,sans-serif}
-body{background:#fff;color:#000;min-height:100vh}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>旅行者公益插件生存服</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
 
-#login{position:fixed;inset:0;background:#fff;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px}
-.login-input{width:80%;max-width:320px;padding:14px;border:1px solid #ccc;border-radius:10px;font-size:16px}
-.login-btn{padding:14px 40px;background:#000;color:#fff;border:none;border-radius:10px;font-size:16px}
+        body {
+            background-color: #f5f5f5;
+            text-align: center;
+            padding: 20px;
+        }
 
-.top-buttons{position:fixed;top:20px;right:20px;display:flex;flex-direction:column;gap:14px;z-index:99}
-.round-btn{width:54px;height:54px;border-radius:50%;border:none;color:#fff;font-size:12px}
-.user{background:#ff3333}
-.ai{background:#ff69b4}
-.set{background:#1a73e8}
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
 
-.close{position:fixed;top:20px;left:20px;width:36px;height:36px;background:#fff;border:1px solid #ccc;border-radius:50%;font-size:20px;z-index:98}
+        .logo {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 20px;
+        }
 
-.main{padding:140px 20px 60px;text-align:center;line-height:1.9}
-.title{font-size:26px;font-weight:700}
-.title span{color:red}
-.qq,.mail,.channel{font-size:15px}
-.version{font-size:12px;margin-top:4px}
-.version span{color:red;text-shadow:0 0 6px gold}
-.copyright{font-size:12px;margin-top:4px}
-.line1{color:red;font-size:16px;font-weight:700;margin-top:8px}
-.line2{color:blue;font-size:16px;font-weight:700;margin-top:4px}
+        h1 {
+            color: #e53935;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
 
-.btns{margin-top:30px;display:flex;flex-direction:column;gap:10px;padding:0 10px}
-.item{padding:16px;border:1px solid #ddd;border-radius:12px;background:#fff;font-size:16px}
-.item small{font-size:12px;color:#666}
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
 
-.modal{position:fixed;inset:0;background:#fff;z-index:97;padding:80px 22px 40px;display:none;overflow-y:auto}
-.modal h2{text-align:center;margin-bottom:20px}
-.red{color:red;font-weight:700}
-.gold{color:gold;font-weight:700}
+        .info-box {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            text-align: left;
+            line-height: 1.8;
+        }
 
-.chat-box{display:flex;flex-direction:column;height:100%}
-.chat-head{display:flex;align-items:center;gap:10px;padding-bottom:10px;border-bottom:1px solid #eee}
-.avatar{width:42px;height:42px;border-radius:50%}
-.msg{margin:6px 0;padding:10px 14px;border-radius:12px;max-width:75%}
-.you{align-self:flex-end;background:#eee}
-.bot{align-self:flex-start;background:#ff69b4;color:#fff}
-.input-line{display:flex;gap:8px;margin-top:auto}
-.input-line input{flex:1;padding:12px;border:1px solid #ccc;border-radius:10px}
-.input-line button{padding:0 16px;background:#ff69b4;color:#fff;border:none;border-radius:10px}
+        .info-box p {
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
 
-.info{text-align:center;line-height:2.2;font-size:16px}
-.on{color:green;font-weight:700}
-.off{color:red;font-weight:700}
-</style>
+        .highlight {
+            color: #e53935;
+            font-weight: bold;
+        }
+
+        .gold {
+            color: #ff9800;
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(255,152,0,0.3);
+        }
+
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            background: #2196f3;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn:hover {
+            background: #1976d2;
+        }
+
+        .btn-red { background: #e53935; }
+        .btn-red:hover { background: #c62828; }
+
+        .btn-pink { background: #ec407a; }
+        .btn-pink:hover { background: #d81b60; }
+
+        .btn-blue { background: #2196f3; }
+        .btn-blue:hover { background: #1976d2; }
+
+        .btn-orange { background: #ff9800; }
+        .btn-orange:hover { background: #f57c00; }
+
+        .btn-green { background: #4caf50; }
+        .btn-green:hover { background: #388e3c; }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.3);
+            z-index: 999;
+            width: 90%;
+            max-width: 450px;
+            text-align: left;
+        }
+
+        .modal h2 {
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 18px;
+            font-size: 22px;
+            cursor: pointer;
+            color: #999;
+            background: none;
+            border: none;
+        }
+
+        .close:hover {
+            color: #e53935;
+        }
+
+        .login-modal {
+            z-index: 9999;
+            background: white;
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.3);
+            width: 90%;
+            max-width: 380px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: block;
+        }
+
+        .login-modal h2 {
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        .login-modal input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: #2196f3;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-top: 15px;
+            cursor: pointer;
+        }
+
+        .login-btn:hover {
+            background: #1976d2;
+        }
+
+        .user-card {
+            text-align: center;
+        }
+
+        .avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            object-fit: cover;
+            border: 3px solid #2196f3;
+        }
+
+        .user-info p {
+            margin: 10px 0;
+            font-size: 15px;
+            color: #444;
+        }
+
+        .chat-box {
+            height: 300px;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            padding: 15px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+            background: #fafafa;
+        }
+
+        .chat-message {
+            margin-bottom: 12px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .user-msg {
+            text-align: right;
+            margin-left: auto;
+            background: #2196f3;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 10px 10px 0 10px;
+        }
+
+        .bot-msg {
+            text-align: left;
+            background: #e0e0e0;
+            color: #333;
+            padding: 8px 12px;
+            border-radius: 10px 10px 10px 0;
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 8px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .chat-input button {
+            padding: 10px 15px;
+            background: #ec407a;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .donate-img {
+            width: 180px;
+            margin: 10px;
+            border-radius: 10px;
+        }
+
+        .top-buttons {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            gap: 8px;
+            z-index: 998;
+        }
+
+        .circle-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            color: white;
+            border: none;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .on { color: #4caf50; font-weight: bold; }
+        .off { color: #e53935; font-weight: bold; }
+    </style>
 </head>
-
 <body>
 
-<div id="login">
-<input class="login-input" type="text" id="user" value="NNGY">
-<input class="login-input" type="password" id="pwd" value="88888">
-<button class="login-btn" onclick="login()">确定登录</button>
+<!-- 登录弹窗 -->
+<div id="loginModal" class="login-modal">
+    <h2>请登录</h2>
+    <input type="text" id="username" placeholder="用户名">
+    <input type="password" id="password" placeholder="密码">
+    <button class="login-btn" onclick="login()">确定登录</button>
 </div>
 
+<!-- 右上角按钮 -->
 <div class="top-buttons">
-<button class="round-btn user" onclick="sh(1)">用户</button>
-<button class="round-btn ai" onclick="sh(2)">电电AI</button>
-<button class="round-btn set" onclick="sh(3)">设置</button>
+    <button class="circle-btn btn-red" onclick="sh(1)">用户</button>
+    <button class="circle-btn btn-pink" onclick="sh(2)">电电AI</button>
+    <button class="circle-btn btn-blue" onclick="sh(3)">设置</button>
 </div>
 
-<div class="main">
-<div class="title">欢迎来到<span>旅行者</span>公益插件生存服</div>
-<div class="qq">QQ群：1073123356</div>
-<div class="mail">联系：3696861272@qq.com</div>
-<div class="channel">QQ频道：阿巴阿巴智障交流群</div>
-<div class="version">官网版本：<span>0.6.0.1x满血版</span></div>
-<div class="copyright">静态网址 侵权必究</div>
-<div class="line1">我们不跟别的服比丝滑 我们只比谁更卡</div>
-<div class="line2">我们只做最卡最原始的原版生存服务器</div>
+<div class="container">
+    <h1>欢迎来到 <span class="highlight">旅行者</span> 公益插件生存服</h1>
+    <p class="subtitle">最纯粹、最公益、长期稳定的生存体验</p>
 
-<div class="btns">
-<button class="item" onclick="sh(4)">版本下载 <small>v0.1</small></button>
-<button class="item" onclick="sh(5)">服务器</button>
-<button class="item" onclick="sh(6)">服务器规则</button>
-<button class="item" onclick="sh(7)">服务器捐赠</button>
-<button class="item" onclick="sh(8)">服务器实时监测</button>
-<button class="item" onclick="sh(9)">更新</button>
-</div>
+    <div class="info-box">
+        <p>📞 联系我们：</p>
+        <p>QQ群：1073123356</p>
+        <p>邮箱：3696861272@qq.com nikanshenme123@gmail.com</p>
+        <p>QQ频道：阿巴阿巴智障交流群（旅行者服务器)</p>
+        <p>🎮 服务器版本：<span class="gold">JAVA 1.21.11</span></p>
+        <p>💬 特色标语：最卡最丝滑 |比德芙都丝滑的卡 </p>
+    </div>
+
+    <div class="btn-group">
+        <button class="btn btn-blue" onclick="sh(4)">版本下载</button>
+        <button class="btn btn-green" onclick="sh(5)">服务器</button>
+        <button class="btn btn-orange" onclick="sh(6)">服务器规则</button>
+        <button class="btn btn-red" onclick="sh(7)">捐赠</button>
+        <button class="btn btn-pink" onclick="sh(8)">实时监测</button>
+        <button class="btn" onclick="sh(9)">更新日志</button>
+    </div>
 </div>
 
+<!-- 弹窗 -->
 <div class="modal" id="m1">
-<button class="close" onclick="cl(1)">×</button>
-<div style="text-align:center;margin-top:20px">
-<img src="avatar.jpg" class="avatar" style="width:90px;height:90px">
-<p style="margin-top:10px">用户名：dadian</p>
-<p>密码：88888</p>
-<p>ID：<span class="gold">888VIP</span></p>
-</div>
+    <button class="close" onclick="cl(1)">×</button>
+    <h2>用户信息</h2>
+    <div class="user-card">
+        <img src="avatar.jpg" alt="头像" class="avatar">
+        <div class="user-info">
+            <p>用户名：dadian</p>
+            <p>密码：88888</p>
+            <p>VIP ID：无</p>
+        </div>
+    </div>
 </div>
 
 <div class="modal" id="m2">
-<button class="close" onclick="cl(2)">×</button>
-<div class="chat-box">
-<div class="chat-head">
-<img src="diandian.jpg" class="avatar">
-<div>电电</div>
-</div>
-<div id="msgs" style="flex:1;overflow-y:auto;padding:10px 0">
-<div class="msg bot">你好呀～我是电电AI</div>
-</div>
-<div class="input-line">
-<input id="msginput" placeholder="输入消息">
-<button onclick="send()">发送</button>
-</div>
-</div>
+    <button class="close" onclick="cl(2)">×</button>
+    <h2>电电AI</h2>
+    <div class="chat-box" id="chatBox"></div>
+    <div class="chat-input">
+        <input type="text" id="msginput" placeholder="输入消息...">
+        <button onclick="send()">发送</button>
+    </div>
 </div>
 
 <div class="modal" id="m3">
-<button class="close" onclick="cl(3)">×</button>
+    <button class="close" onclick="cl(3)">×</button>
+    <h2>设置</h2>
+    <p>功能开发中...</p>
 </div>
 
 <div class="modal" id="m4">
-<button class="close" onclick="cl(4)">×</button>
-<h2>版本下载</h2>
-<button class="item" onclick="window.open('https://www.123912.com/s/2XZfTd-5vcAv')">最新版本</button>
-<button class="item" onclick="window.open('https://www.123912.com/s/2XZfTd-LvcAv')">古老版本</button>
+    <button class="close" onclick="cl(4)">×</button>
+    <h2>版本下载</h2>
+    <p>最新版本：1.21.11</p>
+    <br>
+    <a href="https://pan.quark.cn/s/806b4608555f" target="_blank">点击下载</a>
+    <br>
 </div>
 
 <div class="modal" id="m5">
-<button class="close" onclick="cl(5)">×</button>
-<h2>服务器</h2>
-<div style="text-align:center;line-height:2.2">
-<p>旅行者公益插件生存服</p>
-<p>IP：play.simpfun.cn</p>
-<p>端口：31740</p>
-</div>
+    <button class="close" onclick="cl(5)">×</button>
+    <h2>服务器信息</h2>
+    <p>IP：play.simpfun.cn</p>
+    <p>端口：31740</p>
+    <p>版本：1.21.11</p>
 </div>
 
 <div class="modal" id="m6">
-<button class="close" onclick="cl(6)">×</button>
-<h2>服务器规则</h2>
-<p>eee 养老服不建议建神秘的大型机器，不要随便打人 炸服飞起来</p>
-<p class="red">阿巴阿巴</p>
+    <button class="close" onclick="cl(6)">×</button>
+    <h2>服务器规则</h2>
+    <p>1. 不建大型机器</p>
+    <p>2. 不打人、不炸服、不搞破坏</p>
+    <p>3. 文明游戏，禁止作弊</p>
+    <p>4. 公益服，禁止收费</p>
 </div>
 
 <div class="modal" id="m7">
-<button class="close" onclick="cl(7)">×</button>
-<h2>服务器捐赠</h2>
-<p style="text-align:center">感谢捐赠，全部用于服务器维护，10%用于公益</p>
-<button class="item" onclick="window.open('wx.jpg')">微信捐赠</button>
-<button class="item" onclick="window.open('zfb.jpg')">支付宝捐赠</button>
-<button class="item" onclick="alert('你想啥呢 这么好骗 刷卡的不都是诈骗吗awa')">刷卡支付</button>
+    <button class="close" onclick="cl(7)">×</button>
+    <h2>捐赠支持</h2>
+    <p>微信：</p>
+    <img src="wx.jpg" class="donate-img">
+    <p>支付宝：</p>
+    <img src="zfb.jpg" class="donate-img">
+    <br>
+    <button class="btn" onclick="cardPay()">刷卡支付</button>
 </div>
 
+<!-- 已修改：Java版服务器检测 -->
 <div class="modal" id="m8">
-<button class="close" onclick="cl(8)">×</button>
-<h2>服务器实时监测</h2>
-<div class="info">
-<p>服务器：旅行者公益插件生存服</p>
-<p>IP：play.simpfun.cn</p>
-<p>端口：31740</p>
-<p>版本：1.21.11</p>
-<p>状态：<span id="status" class="off">检测中</span></p>
-<p>在线：<span id="online">--</span></p>
-<p>延迟：<span id="ping">--</span></p>
-</div>
+    <button class="close" onclick="cl(8)">×</button>
+    <h2>服务器实时监测</h2>
+    <div class="info">
+        <p>服务器：旅行者公益插件生存服</p>
+        <p>IP：play.simpfun.cn</p>
+        <p>端口：31740</p>
+        <p>版本：1.21.11 Java版</p>
+        <p>状态：<span id="status" class="off">检测中</span></p>
+        <p>在线：<span id="online">--</span></p>
+        <p>延迟：<span id="ping">--</span></p>
+    </div>
 </div>
 
 <div class="modal" id="m9">
-<button class="close" onclick="cl(9)">×</button>
-<h2>更新内容</h2>
-<p><strong>0.6.0.1x满血版</strong></p>
-<p>阿巴阿巴，加入了非常多的插件 我自己也不知道有哪些</p>
-<br>
-<p><strong>0.5.0.1x满血版</strong></p>
-<p>阿巴阿巴，制作了很多神秘的汉化</p>
-<br>
-<p><strong>0.4.1x</strong></p>
-<p>阿巴阿巴，加了插件</p>
-<br>
-<p><strong>0.4x</strong></p>
-<p>阿巴阿巴，治好了腐竹低血压的毛病</p>
-<br>
-<p><strong>0.3x</strong></p>
-<p>阿巴阿巴，治好了腐竹极强执行力的毛病</p>
-<br>
-<p><strong>0.2x</strong></p>
-<p>阿巴阿巴，不知道写什么了</p>
+    <button class="close" onclick="cl(9)">×</button>
+    <h2>更新日志</h2>
+    <p>2025-12-19 修复部分卡顿</p>
+    <p>2025-12-18 新增生存插件</p>
+    <p>2025-12-17 治好了腐竹低血压</p>
 </div>
 
 <script>
 function login(){
-    let u = document.getElementById("user").value;
-    let p = document.getElementById("pwd").value;
+    let u = document.getElementById("username").value;
+    let p = document.getElementById("password").value;
     if(u === "dadian" && p === "88888"){
-        document.getElementById("login").style.display = "none";
+        document.getElementById("loginModal").style.display = "none";
     }else{
-        alert("账号或密码错误");
+        alert("账号或密码错误！");
     }
 }
 
 function sh(n){
-    if(n === 8){
-        document.getElementById("m8").style.display = "block";
-        let s = document.getElementById("status");
-        let on = document.getElementById("online");
-        let pg = document.getElementById("ping");
-
-        s.innerText = "检测中";
-        s.className = "off";
-        on.innerText = "--";
-        pg.innerText = "--";
-
-        fetch("https://api.mcsrvstat.us/bedrock/play.simpfun.cn/31740")
-        .then(r => r.json())
-        .then(d => {
-            if(d.online){
-                s.innerText = "在线";
-                s.className = "on";
-                on.innerText = d.players.online + " / " + d.players.max;
-                pg.innerText = (d.ping || "≤50") + "ms";
-            }else{
-                s.innerText = "离线";
-                s.className = "off";
-            }
-        })
-        .catch(() => {
-            s.innerText = "检测失败";
-            s.className = "off";
-        });
-    }else{
-        document.getElementById("m"+n).style.display = "block";
-    }
+    cl(1);cl(2);cl(3);cl(4);cl(5);cl(6);cl(7);cl(8);cl(9);
+    document.getElementById("m"+n).style.display = "block";
 }
 
 function cl(n){
     document.getElementById("m"+n).style.display = "none";
 }
 
-const rep = [
-    "你好呀，我是电电～",
-    "服务器目前运行正常",
-    "有问题可以加群联系腐竹",
-    "无规则服自由玩耍，注意素质哦",
-    "欢迎来到旅行者公益插件服"
-];
-
 function send(){
     let i = document.getElementById("msginput");
     let t = i.value.trim();
     if(!t) return;
-    let ms = document.getElementById("msgs");
+    let box = document.getElementById("chatBox");
 
-    let userMsg = document.createElement("div");
-    userMsg.className = "msg you";
-    userMsg.innerText = t;
-    ms.appendChild(userMsg);
+    let userDiv = document.createElement("div");
+    userDiv.className = "chat-message user-msg";
+    userDiv.innerText = t;
+    box.appendChild(userDiv);
+
     i.value = "";
+    box.scrollTop = box.scrollHeight;
 
-    setTimeout(() => {
-        let botMsg = document.createElement("div");
-        botMsg.className = "msg bot";
-        botMsg.innerText = rep[Math.floor(Math.random() * rep.length)];
-        ms.appendChild(botMsg);
-        ms.scrollTop = ms.scrollHeight;
-    }, 700);
-    ms.scrollTop = ms.scrollHeight;
+    let rep = ["你好！","我是电电AI","有什么可以帮你？","阿巴阿巴~","旅行者服务器超棒！","已收到消息~"];
+    let rt = rep[Math.floor(Math.random()*rep.length)];
+
+    setTimeout(()=>{
+        let botDiv = document.createElement("div");
+        botDiv.className = "chat-message bot-msg";
+        botDiv.innerText = rt;
+        box.appendChild(botDiv);
+        box.scrollTop = box.scrollHeight;
+    },700);
 }
+
+function cardPay(){
+    alert("刷卡支付功能不存在！这是诈骗提示！刷卡支付的统统都是诈骗！");
+}
+
+// 已修改：Java版服务器检测
+async function checkServer8() {
+    let status = document.getElementById("status");
+    let online = document.getElementById("online");
+    let ping = document.getElementById("ping");
+    try {
+        let r = await fetch("https://api.mcsrvstat.us/2/play.simpfun.cn:31740");
+        let d = await r.json();
+        if(d.online) {
+            status.innerText = "在线";
+            status.className = "on";
+            online.innerText = d.players.online + "/" + d.players.max;
+            ping.innerText = "正常";
+        } else {
+            status.innerText = "离线";
+            status.className = "off";
+            online.innerText = "0/0";
+            ping.innerText = "超时";
+        }
+    } catch(e) {
+        status.innerText = "检测失败";
+        status.className = "off";
+    }
+}
+
+checkServer8();
+setInterval(checkServer8, 30000);
 </script>
 </body>
 </html>
